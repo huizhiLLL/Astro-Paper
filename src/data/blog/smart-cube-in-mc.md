@@ -1,6 +1,6 @@
 ---
-title: '如何做到用智能魔方在 MC 中玩魔方'
-pubDatetime: 2026-04-28T16:27:55+08:00
+title: '【教程】如何做到用智能魔方在 MC 中玩魔方'
+pubDatetime: 2026-03-30T00:58:12+08:00
 draft: false
 featured: false
 tags:

@@ -1,6 +1,6 @@
 ---
-title: '2025 年度总结'
-pubDatetime: 2026-05-12T08:34:10+08:00
+title: '2025-年度总结'
+pubDatetime: 2025-12-31T12:00:00+08:00
 draft: false
 featured: false
 tags:

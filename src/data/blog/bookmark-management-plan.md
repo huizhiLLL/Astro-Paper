@@ -1,6 +1,6 @@
 ---
 title: '网站收藏的管理方案'
-pubDatetime: 2026-02-02T11:53:16+08:00
+pubDatetime: 2026-01-30T22:18:58+08:00
 draft: false
 featured: false
 tags:
@@ -139,5 +139,4 @@ $the_query = new WP_Query( $args );
 - 希望将私人收藏转化为公开资源分享站
 - 使用 Obsidian 管理知识库并希望与博客联动
 - 需要对收藏内容进行分类管理
-
 

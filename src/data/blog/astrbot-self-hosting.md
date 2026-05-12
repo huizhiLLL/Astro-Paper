@@ -1,6 +1,6 @@
 ---
-title: 'Astrbot 的自建历程'
-pubDatetime: 2026-01-26T18:21:28+08:00
+title: 'Astrbot的自建历程'
+pubDatetime: 2025-11-27T19:54:15+08:00
 draft: false
 featured: false
 tags:

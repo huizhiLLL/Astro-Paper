@@ -1,6 +1,6 @@
 ---
-title: 'Astrbot MCP'
-pubDatetime: 2026-01-26T18:47:11+08:00
+title: 'Astrbot 与 MCP'
+pubDatetime: 2026-01-09T13:25:31+08:00
 draft: false
 featured: false
 tags:
@@ -78,5 +78,4 @@ description: '把 MCP 能力接进 Astrbot 的一些实践，包括天气、WCA 
 而非常见的逻辑算法运算求解。
 
 这个的难度会难以想象的大，也无疑会跨越 AI 与 Cube 之间的巨大鸿沟。
-
 

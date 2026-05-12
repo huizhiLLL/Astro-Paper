@@ -1,6 +1,6 @@
 ---
 title: '拿到一台 VPS 后的初始化'
-pubDatetime: 2026-01-24T18:28:21+08:00
+pubDatetime: 2026-01-24T18:19:28+08:00
 draft: false
 featured: false
 tags:
