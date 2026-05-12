@@ -1,0 +1,40 @@
+---
+import { SITE } from "@/config";
+
+const comments = SITE.comments;
+const shouldRender =
+  comments.enabled &&
+  comments.repo.trim() !== "" &&
+  comments.repoId.trim() !== "" &&
+  comments.category.trim() !== "" &&
+  comments.categoryId.trim() !== "";
+---
+
+{
+  shouldRender && (
+    <section
+      id="comments"
+      class="mt-8"
+      data-pagefind-ignore
+      aria-label="评论"
+    >
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={comments.repo}
+        data-repo-id={comments.repoId}
+        data-category={comments.category}
+        data-category-id={comments.categoryId}
+        data-mapping={comments.mapping}
+        data-strict={comments.strict}
+        data-reactions-enabled={comments.reactionsEnabled}
+        data-emit-metadata={comments.emitMetadata}
+        data-input-position={comments.inputPosition}
+        data-theme="preferred_color_scheme"
+        data-lang={comments.lang}
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}

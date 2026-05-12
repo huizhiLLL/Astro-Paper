@@ -16,6 +16,19 @@ export const SITE = {
     text: "Edit page",
     url: "https://github.com/huizhiLLL/AstroPaper/edit/main/",
   },
+  comments: {
+    enabled: true,
+    repo: "huizhiLLL/Astro-Paper",
+    repoId: "R_kgDOSa4XIQ",
+    category: "Announcements",
+    categoryId: "DIC_kwDOSa4XIc4C84CW",
+    mapping: "pathname",
+    strict: "0",
+    reactionsEnabled: "1",
+    emitMetadata: "0",
+    inputPosition: "bottom",
+    lang: "zh-CN",
+  },
   dynamicOgImage: true,
   dir: "ltr", // "rtl" | "auto"
   lang: "zh-CN", // html lang code. Set this empty and default will be "en"
