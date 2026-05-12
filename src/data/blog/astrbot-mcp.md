@@ -7,6 +7,7 @@ tags:
   - Astrbot
   - MCP
   - AI
+  - 魔方
 description: '把 MCP 能力接进 Astrbot 的一些实践，包括天气、WCA 查询和知识库方向。'
 ---
 ## 一、初识 MCP

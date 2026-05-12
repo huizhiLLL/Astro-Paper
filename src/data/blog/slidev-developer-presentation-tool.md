@@ -5,8 +5,7 @@ draft: false
 featured: false
 tags:
   - Slidev
-  - 演示
-  - 写作
+  - 工具
 description: '介绍 Slidev 的使用场景、工具特性，以及我实际拿它做演示文稿的体验。'
 ---
 [Slidev](https://sli.dev) 其官方介绍为 **Presentation Slides for Developers**，我想也的确符合。

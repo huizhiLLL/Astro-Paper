@@ -4,9 +4,7 @@ pubDatetime: 2025-11-20T16:16:58+08:00
 draft: false
 featured: false
 tags:
-  - 导航页
-  - 部署
-  - 图床
+  - 工具
 description: '从需求、方案比对到最终落地，整理一个网页导航页和图床系统的过程。'
 ---
 ## 一、起因

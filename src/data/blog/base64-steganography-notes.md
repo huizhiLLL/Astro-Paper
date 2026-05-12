@@ -6,7 +6,7 @@ featured: false
 tags:
   - CTF
   - 编码
-  - 安全
+  - Python
 description: '关于 Base64 隐写的基本原理、编码规律和一个简短的笔记整理。'
 ---
 ## 一、Base64 编码基础

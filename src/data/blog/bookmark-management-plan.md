@@ -4,9 +4,8 @@ pubDatetime: 2026-01-30T22:18:58+08:00
 draft: false
 featured: false
 tags:
-  - 收藏
-  - 导航
-  - 习惯
+  - 工具
+  - 方案分享
 description: '讨论网站收藏和日常导航的分工，以及更适合自己的管理方式。'
 ---
 ## 一、引言
