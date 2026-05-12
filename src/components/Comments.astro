@@ -16,25 +16,54 @@ const shouldRender =
       id="comments"
       class="mt-8"
       data-pagefind-ignore
+      data-repo={comments.repo}
+      data-repo-id={comments.repoId}
+      data-category={comments.category}
+      data-category-id={comments.categoryId}
+      data-mapping={comments.mapping}
+      data-strict={comments.strict}
+      data-reactions-enabled={comments.reactionsEnabled}
+      data-emit-metadata={comments.emitMetadata}
+      data-input-position={comments.inputPosition}
+      data-theme="preferred_color_scheme"
+      data-lang={comments.lang}
       aria-label="评论"
     >
-      <script
-        is:inline
-        src="https://giscus.app/client.js"
-        data-repo={comments.repo}
-        data-repo-id={comments.repoId}
-        data-category={comments.category}
-        data-category-id={comments.categoryId}
-        data-mapping={comments.mapping}
-        data-strict={comments.strict}
-        data-reactions-enabled={comments.reactionsEnabled}
-        data-emit-metadata={comments.emitMetadata}
-        data-input-position={comments.inputPosition}
-        data-theme="preferred_color_scheme"
-        data-lang={comments.lang}
-        crossorigin="anonymous"
-        async
-      />
     </section>
   )
 }
+
+<script is:inline data-astro-rerun>
+  function loadGiscus() {
+    const container = document.querySelector("#comments");
+
+    if (!container || container.querySelector("iframe.giscus-frame")) return;
+
+    container.replaceChildren();
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.dataset.repo = container.dataset.repo;
+    script.dataset.repoId = container.dataset.repoId;
+    script.dataset.category = container.dataset.category;
+    script.dataset.categoryId = container.dataset.categoryId;
+    script.dataset.mapping = container.dataset.mapping;
+    script.dataset.strict = container.dataset.strict;
+    script.dataset.reactionsEnabled = container.dataset.reactionsEnabled;
+    script.dataset.emitMetadata = container.dataset.emitMetadata;
+    script.dataset.inputPosition = container.dataset.inputPosition;
+    script.dataset.theme = container.dataset.theme;
+    script.dataset.lang = container.dataset.lang;
+    script.crossOrigin = "anonymous";
+    script.async = true;
+
+    container.appendChild(script);
+  }
+
+  loadGiscus();
+
+  if (!window.__giscusPageLoadBound) {
+    document.addEventListener("astro:page-load", loadGiscus);
+    window.__giscusPageLoadBound = true;
+  }
+</script>
