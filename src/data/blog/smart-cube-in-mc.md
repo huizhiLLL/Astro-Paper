@@ -23,20 +23,20 @@ description: '把智能魔方、键盘映射和 Minecraft 里的机械动力魔�
 
 例如：
 
-| 转动记号 |       按键组合        |     |
-| :--: | :---------------: | --- |
-|  U   | `Shift` + `Space` |     |
-|  U'  |      `Space`      |     |
-|  D   |        `A`        |     |
-|  D'  |        `D`        |     |
-|  F   |     `8` + `S`     |     |
-|  F'  |     `8` + `W`     |     |
-|  R   |     `6` + `S`     |     |
-|  R'  |     `6` + `W`     |     |
-|  L   |     `7` + `W`     |     |
-|  L'  |     `7` + `S`     |     |
-|  B   |     `4` + `S`     |     |
-|  B'  |     `4` + `W`     |     |
+| 转动记号 |       按键组合        |
+| :--: | :---------------: |
+|  U   | `Shift` + `Space` |
+|  U'  |      `Space`      |
+|  D   |        `A`        |
+|  D'  |        `D`        |
+|  F   |     `8` + `S`     |
+|  F'  |     `8` + `W`     |
+|  R   |     `6` + `S`     |
+|  R'  |     `6` + `W`     |
+|  L   |     `7` + `W`     |
+|  L'  |     `7` + `S`     |
+|  B   |     `4` + `S`     |
+|  B'  |     `4` + `W`     |
 
 > 仅示例，方案不唯一。实际的无线红石信号终端控制中，以转动记号的视角来看有一些是重复的。
 
@@ -66,6 +66,7 @@ description: '把智能魔方、键盘映射和 Minecraft 里的机械动力魔�
 
 **需要额外下载的：**
 - [机械动力三阶魔方存档](https://openlist.huizhi.ink/d/OneDrive/ZIP/3%C3%973%C3%973%20Rubik's%20Cube.7z)（来源：b 站大佬 cym_STUDIO）
+  解压密码为 **BV1c83zzxEyL**
 - RubiKey（智能魔方映射层）：
     - [RubiKey | Github Releases](https://github.com/huizhiLLL/RubiKey/releases/latest)
     - [RubiKey | huizhi's OpenList](https://openlist.huizhi.ink/OneDrive/Software/RubiKey) （网络环境不佳时选择）
