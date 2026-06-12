@@ -5,6 +5,7 @@ import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconArchive from "@/assets/icons/IconArchive.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
+import IconExternalLink from "@/assets/icons/IconExternalLink.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
 
@@ -77,7 +78,13 @@ const isActive = (path: string) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Weekly
+            <span class="inline-flex items-center justify-center gap-1.5">
+              Weekly
+              <IconExternalLink
+                class="size-3.5 opacity-60 transition-opacity sm:size-3"
+                aria-hidden="true"
+              />
+            </span>
           </a>
         </li>
         <li class="col-span-2">
