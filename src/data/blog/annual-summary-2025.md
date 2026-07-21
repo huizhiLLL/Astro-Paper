@@ -1,13 +1,13 @@
 ---
-title: '2025-年度总结'
+title: 2025-年度总结
 pubDatetime: 2025-12-31T12:00:00+08:00
 draft: false
-featured: true
+featured: false
 tags:
   - 年度总结
   - 随笔
   - 生活
-description: '一篇 2025 年的年度总结，记录这一年里的一些折腾、学习和碎碎念。'
+description: 一篇 2025 年的年度总结，记录这一年里的一些折腾、学习和碎碎念。
 ---
 ## 引言
 
