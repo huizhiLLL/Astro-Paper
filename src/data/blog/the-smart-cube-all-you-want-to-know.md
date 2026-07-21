@@ -1,6 +1,6 @@
 ---
 title: 从原理到应用：智能魔方开发接入全景指南
-pubDatetime: 2026-07-22T12:00:00+08:00
+pubDatetime: 2026-07-22T00:00:00+08:00
 draft: false
 featured: true
 tags:
