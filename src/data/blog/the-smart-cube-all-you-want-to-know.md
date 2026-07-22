@@ -34,14 +34,14 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 ### 基础概念
 
+![BLE 与 GATT 数据模型](/blog-assets/BLE/smartcube-gatt-model.png)
+
 - BLE（**B**luetooth **L**ow **E**nergy），即低功耗蓝牙，在 Bluetooth 4.0 引入，能够在维持相对低的功耗的同时实现通信，也就是智能魔方普遍采用的通信方式
 - MAC 地址（**M**edia **A**ccess **C**ontrol Address）：BLE 通信中用于标识和寻址设备的 48 位地址，格式例如：`D0:AB:12:34:56:78`；智能魔方的 MAC 地址通常随出厂固定，部分协议会使用 MAC 地址参与加密参数的生成
 - GATT（**G**eneric **ATT**ribute Profile），是 BLE 连接建立后的数据访问框架
   外设，也就是智能魔方，通过 Service 和 Characteristic 组织数据，中心设备（手机/电脑）通过服务发现、读取、写入和订阅通知完成通信；具体字节代表什么，则由智能魔方的厂商协议决定
 - **Characteristic** 支持的操作由其属性决定，常见方式包括：
   Read：客户端主动读取数据；Write：客户端向魔方发送指令； Notify：魔方在数据变化时主动通知客户端，例如上报一次转动；Indicate：与 Notify 类似，但需要客户端确认，智能魔方中较少使用。
-
-![BLE 与 GATT 数据模型](/blog-assets/BLE/smartcube-gatt-model.png)
 
 ### 连接过程
 
@@ -154,6 +154,8 @@ iOS 作为移动端，也有不少用户；
 
 ## 难点 —— 多品牌兼容过程的真正麻烦
 
+![多品牌兼容性测试覆盖](/blog-assets/BLE/smartcube-compatibility-testing.png)
+
 这里也只讨论三大品牌的兼容，其他品牌（Go，Giiker 等）在国内很少使用：
 
 ### 设备准备
@@ -181,8 +183,6 @@ iOS 作为移动端，也有不少用户；
 ### 总结
 
 对于多品牌兼容，**测试 > 代码**，测试需要覆盖尽可能全的设备
-
-![多品牌兼容性测试覆盖](/blog-assets/BLE/smartcube-compatibility-testing.png)
 
 ## 应用 —— 智能魔方映射类项目的核心
 
