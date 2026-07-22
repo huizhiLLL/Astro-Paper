@@ -9,7 +9,7 @@ tags:
   - 指南
 description: 关于智能魔方的开发接入，你想知道的所有
 ---
-> 人工撰写，可放心食用~（约 3700 字，阅读时间约 10 min）
+> 人工撰写，可放心食用~（约 3800 字，阅读时间约 15 min）
 
 ## 背景与前言
 
@@ -21,7 +21,7 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 以下是内容大纲，可按需阅读：
 
-- 原理—— 一次完整连接是怎样发生的
+- 原理 —— 一次完整连接是怎样发生的
 - 资料 —— 从哪里开发接入智能魔方
 - 取舍 —— 实际技术栈该如何选择
 - 难点 —— 多品牌兼容过程的真正麻烦
@@ -107,6 +107,8 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 这里主要讨论 Web，Android 和 Windows，以及简单补充 iOS（暂无 mac OS/Linux 开发经验，不作讨论）
 
+![开发平台取舍对比](/blog-assets/BLE/smartcube-platform-tradeoffs.png)
+
 ### Web
 
 - 魔方相关**生态丰富**（例如 cubing.js ），方便实现打乱计时、公式处理、状态展示以及部分智能魔方功能
@@ -149,8 +151,6 @@ iOS 作为移动端，也有不少用户；
 - 以智能魔方的计时训练为关键/主要功能，建议优先 **Android** ，推荐 Kotlin + Jetpack Compose
 - 智能魔方作为附加功能，目标是快速上线、多端访问或复用 cubing.js 生态时，**Web** 更合适
 - **Windows** 适合作为扩展 —— 采用 Tauri + Rust / C# ，可以实现高颜值、智能魔方友好的桌面客户端，但目标用户规模和开发投入需要评估
-
-![开发平台取舍对比](/blog-assets/BLE/smartcube-platform-tradeoffs.png)
 
 ## 难点 —— 多品牌兼容过程的真正麻烦
 
@@ -214,15 +214,15 @@ iOS 作为移动端，也有不少用户；
 - 适配各种公式专项训练（F2L/OLL/PLL/顶层/CLL/ELL/COLL/EOCP/2GLL/OLLCP/ZZLL/ZBLS/ZBLL、CMLL/LSE/L10P）
 - 连接简单，速度很快（2~4s）
 
-已历经两个月，6 个版本的迭代优化，欢迎体验，提出建议~
-软件官网：[DCTimer-BLE —— 支持智能魔方的优化版 DCTimer](https://dctimer.huizhi.ink)
+已历经两个月，6 个版本的迭代优化，欢迎体验，提出建议~  
+软件官网：[DCTimer-BLE —— 支持智能魔方的优化版 DCTimer](https://dctimer.huizhi.ink)  
 开源仓库：[huizhiLLL/DCTimer-BLE: 基于 DCTimer，支持智能魔方并改进部分功能](https://github.com/huizhiLLL/DCTimer-BLE)
 
 #### [RubiKey](https://www.bilibili.com/video/BV1GUKB61EzF/)
 
 一个较为简单的映射类项目，即通过无障碍服务让智能魔方操控安卓设备，即可实现智能魔方刷视频、看小说、听音乐、充当游戏手柄（例如地铁跑酷）等操作，同样支持三大品牌智能魔方，欢迎尝试
 
-开源仓库：[huizhiLLL/RubiKey-Android: 智能魔方控制安卓设备](https://github.com/huizhiLLL/RubiKey-Android)
+开源仓库：[huizhiLLL/RubiKey-Android: 智能魔方控制安卓设备](https://github.com/huizhiLLL/RubiKey-Android)  
 下载地址：
 - [RubiKey-Android | huizhi's OpenList](https://openlist.huizhi.ink/OneDrive/Software/RubiKey-Android)
 - [Github Releases · huizhiLLL/RubiKey-Android](https://github.com/huizhiLLL/RubiKey-Android/releases)
