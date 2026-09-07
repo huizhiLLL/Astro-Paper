@@ -1,5 +1,5 @@
 ---
-title: 'Astrbot的自建历程'
+title: Astrbot 自建历程
 pubDatetime: 2025-11-27T19:54:15+08:00
 draft: false
 featured: false
@@ -7,7 +7,7 @@ tags:
   - Astrbot
   - Bot
   - 运维
-description: '记录 Astrbot 从本地部署到云端迁移的过程，以及中途踩过的一些坑。'
+description: 记录 Astrbot 从本地部署到云端迁移的过程，以及中途踩过的一些坑。
 ---
 ## 一、起因
 

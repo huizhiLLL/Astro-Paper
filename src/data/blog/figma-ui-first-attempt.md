@@ -1,5 +1,5 @@
 ---
-title: 'Figma UI 设计的初次尝试'
+title: Figma UI 设计初次尝试
 pubDatetime: 2026-01-28T02:57:46+08:00
 draft: false
 featured: false
@@ -7,7 +7,7 @@ tags:
   - 设计
   - Figma
   - UI
-description: '第一次接触 Figma 做 UI 设计的过程，包含配色思考和实际成品。'
+description: 第一次接触 Figma 做 UI 设计的过程，包含配色思考和实际成品。
 ---
 ## 一、历程
 
