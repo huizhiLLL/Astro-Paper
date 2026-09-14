@@ -43,11 +43,11 @@ description: 一篇 2025 年的年度总结，记录这一年里的一些折腾�
 
 后来大概在五六月份的时候，自己的魔方小群里，大家正兴致勃勃的讨论“群记录（GR）”这个概念，然后从腾讯文档表格的一个个填写，到我尝试使用 vsc 写一个纯静态的表格网站，再到我下载 cursor 开始 vibe coding ，那段时间每天都在和 ai 斗智斗勇，还不会用 git ，只是用了 sealos 的云开发，很鸡肋，也是走了很多弯路。到后面的不断修 bug 优化，并且接入 q群 bot 来实现群聊和网站的互通，但是水平有限，所以后面成了史山也很少维护了，打算后面有空重构一版。
 
-![](/blog-assets/smartcube/image-1-964x1024.png)
+![](blog-assets/smartcube/image-1-964x1024.png)
 
-![](/blog-assets/smartcube/image-8-1024x653.png)
+![](blog-assets/smartcube/image-8-1024x653.png)
 
-![](/blog-assets/smartcube/image-11-1024x611.png)
+![](blog-assets/smartcube/image-11-1024x611.png)
 
  三个阶段的截图
 
