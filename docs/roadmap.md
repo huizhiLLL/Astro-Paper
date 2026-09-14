@@ -7,9 +7,9 @@
 Minecraft 结构展示的 AE2 首轮链路已经完成：
 
 - Markdown 通过 `mc-structure` 引用 Structure NBT。
-- Astro integration 在开发启动和生产构建时遍历 `src/data/mc/structures/` 并生成场景 JSON。
-- CI 优先使用 `src/data/mc/resources/` 中的固定 AE2 19.2.17 纹理。
-- 本地缺少固定资源时，可从指定 Minecraft 版本的 mod jar 提取。
+- Astro integration 从文章引用收集结构，按规范化路径去重生成场景和资源依赖清单。
+- Minecraft 1.21.1、AE2 19.2.17、Create 6.0.10 的固定渲染资源已批量入库，构建不读取本机目录。
+- Obsidian Actions 按独立目录增量同步文章、图片和 NBT；博客 CI 校验资源、代码、测试与构建。
 - 页面使用 Three.js 和 OrbitControls 展示可旋转、可缩放的结构。
 - 已用 `test.nbt` 验证控制器、分子装配室、样板供应器、驱动器和创造能源元件。
 - 已定向实现控制器默认在线常亮、双侧邻接材质变化，分子装配室原版镂空模型和逐面 UV，以及驱动器原版逐面外壳与空槽模型。
@@ -18,7 +18,7 @@ Minecraft 结构展示的 AE2 首轮链路已经完成：
 
 1. 在三种方块定向适配基础上扩展 AE2 blockstate 与模型继承，为其他方块选择逐面纹理。
 2. 扩展其他方块朝向、任意元素旋转，以及动态发光与半透明材质。
-3. 为资源清单增加版本与来源 manifest，并补充缺失资源诊断。
+3. 按文章需要继续增加定向适配，并扩展未知模型的诊断信息。
 4. 将文章详情中的 Minecraft 初始化逻辑拆成独立、按需加载的组件边界。
 5. 完成 AE2 效果验收后，再接入 Create 6.0.10 的方块资源。
 

@@ -1,9 +1,10 @@
-import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { prepareResource } from "./resources.ts";
+import { prepareResource, resourceRootFor } from "./resources.ts";
 import { parseNbt, type NbtValue } from "./nbt.ts";
 import { prepareAppearances, type BlockModel } from "./appearance.ts";
+import { structureReference } from "./references.ts";
+import { collectDependencies } from "./dependencies.ts";
 export type SceneBlock = {
   id: string;
   state: Record<string, string>;
@@ -20,6 +21,7 @@ export type MCScene = {
   resources?: Record<string, { textureUrl?: string; source: string }>;
   models?: Record<string, BlockModel>;
   names?: Record<string, string>;
+  dependencies?: string[];
   blocks: SceneBlock[];
 };
 const asCompound = (value: NbtValue | undefined) =>
@@ -39,7 +41,12 @@ export const parseStructureNbt = (input: Buffer, source: string): MCScene => {
     Array.isArray(rawSize) && rawSize.length >= 3
       ? [Number(rawSize[0]), Number(rawSize[1]), Number(rawSize[2])]
       : [0, 0, 0];
-  const paletteCompound = asCompound(field(root, "palette"));
+  const rawPalette = field(root, "palette");
+  const paletteCompound = Array.isArray(rawPalette)
+    ? Object.fromEntries(
+        rawPalette.map((entry, index) => [String(index), entry])
+      )
+    : asCompound(rawPalette);
   const palette = Object.keys(paletteCompound)
     .sort((a, b) => Number(a) - Number(b))
     .map(key => asString(asCompound(paletteCompound[key]).Name));
@@ -87,28 +94,51 @@ export const parseStructureNbt = (input: Buffer, source: string): MCScene => {
 export const buildScene = async (
   sourceFile: string,
   sourceLabel: string,
-  publicDir: string
+  publicDir: string,
+  resourceRoot = resourceRootFor(publicDir)
 ) => {
   const input = await readFile(sourceFile);
-  const id = createHash("sha256")
-    .update(sourceLabel)
-    .update(new Uint8Array(input))
-    .digest("hex")
-    .slice(0, 16);
+  const { id } = structureReference(`src: ${sourceLabel}`);
   const scene = parseStructureNbt(input, sourceLabel);
+  scene.blocks = scene.blocks.filter(
+    block =>
+      !["minecraft:air", "minecraft:cave_air", "minecraft:void_air"].includes(
+        block.id
+      )
+  );
+  if (scene.blocks.length === 0)
+    throw new Error(`Structure contains no renderable blocks: ${sourceLabel}`);
+  scene.palette = [...new Set(scene.blocks.map(block => block.id))];
+  scene.dependencies = await collectDependencies(scene.palette, resourceRoot);
   const resources: MCScene["resources"] = {};
   for (const block of scene.blocks)
-    resources[block.id] ??= await prepareResource(block.id, publicDir);
+    resources[block.id] ??= await prepareResource(
+      block.id,
+      publicDir,
+      resourceRoot
+    );
   scene.resources = resources;
-  const translations: Record<string, string> = JSON.parse(
-    await readFile(
-      path.resolve(
-        publicDir,
-        "../src/data/mc/resources/assets/ae2/lang/zh_cn.json"
-      ),
-      "utf8"
-    )
-  );
+  const translations: Record<string, string> = {};
+  for (const namespace of new Set(scene.palette.map(id => id.split(":")[0]))) {
+    for (const language of ["en_us", "zh_cn"]) {
+      try {
+        Object.assign(
+          translations,
+          JSON.parse(
+            await readFile(
+              path.join(
+                resourceRoot,
+                `assets/${namespace}/lang/${language}.json`
+              ),
+              "utf8"
+            )
+          )
+        );
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      }
+    }
+  }
   scene.names = Object.fromEntries(
     scene.palette.map(id => [
       id,
@@ -117,7 +147,7 @@ export const buildScene = async (
   );
   const { models, modelKeys } = await prepareAppearances(
     scene.blocks,
-    path.resolve(publicDir, "../src/data/mc/resources"),
+    resourceRoot,
     publicDir
   );
   scene.models = models;

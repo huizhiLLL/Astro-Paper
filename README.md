@@ -6,6 +6,7 @@
 
 - [项目说明](docs/project.md)：项目定位、内容方向、当前范围和日常使用。
 - [架构说明](docs/architecture.md)：技术栈、目录职责、内容数据流、路由和扩展原则。
+- [CI 与内容同步](docs/ci.md)：Obsidian 增量同步、固定资源、构建和验证。
 - [开发路线](docs/roadmap.md)：Minecraft 结构展示等扩展的阶段状态与下一步。
 - [AGENTS.md](AGENTS.md)：面向协作者和编码代理的工作约定。
 
@@ -27,9 +28,11 @@
 
 ````md
 ```mc-structure
-src: mc/structures/test.nbt
+src: mc/test.nbt
 caption: AE2 测试网络
 ```
 ````
 
-CI 使用 `src/data/mc/resources/` 中整理后的固定版本资源。本地缺少仓库资源时，可以通过 `MC_RESOURCE_ROOT` 和 `MC_VERSION` 从 Minecraft 版本目录中的 mod jar 提取纹理。详见 [Minecraft 结构演示扩展](docs/mc-structure-extension.md)。
+构建只使用 `src/data/mc/resources/` 中已入库的固定版本资源，不读取本机 Minecraft 目录。文章引用 `mc/test.nbt` 对应 `src/data/mc/structures/test.nbt`，旧写法 `mc/structures/test.nbt` 仍兼容。详见 [Minecraft 结构演示扩展](docs/mc-structure-extension.md)。
+
+开发与 CI 使用 Node.js 24、pnpm 9.15.9。常用验证：`pnpm resources:check`、`pnpm lint`、`pnpm format:check`、`pnpm test`、`pnpm build`、`pnpm test:preview`。

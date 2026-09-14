@@ -25,6 +25,41 @@ const minecraftScenes = (): AstroIntegration => ({
         fileURLToPath(config.publicDir)
       );
     },
+    "astro:server:setup": ({ server }) => {
+      let timer: ReturnType<typeof setTimeout>;
+      let pending = Promise.resolve();
+      const root = server.config.root;
+      const changed = (file: string) => {
+        const normalized = file.replaceAll("\\", "/");
+        if (
+          !normalized.includes("/src/data/blog/") &&
+          !normalized.includes("/src/data/mc/")
+        )
+          return;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          pending = pending.then(async () => {
+            try {
+              await buildMinecraftScenes(root, server.config.publicDir);
+              server.ws.send({ type: "full-reload" });
+            } catch (error) {
+              server.config.logger.error(String(error));
+            }
+          });
+        }, 200);
+      };
+      server.watcher
+        .on("add", changed)
+        .on("change", changed)
+        .on("unlink", changed);
+      server.httpServer?.once("close", () => {
+        clearTimeout(timer);
+        server.watcher
+          .off("add", changed)
+          .off("change", changed)
+          .off("unlink", changed);
+      });
+    },
   },
 });
 

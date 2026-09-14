@@ -79,8 +79,8 @@ pnpm run format:check
 pnpm run build
 ```
 
-构建命令会先执行 Astro 类型检查和构建，再使用 Pagefind 生成搜索索引，并将索引复制到 `public/pagefind`。
+构建命令执行 Astro 类型检查、静态构建和 Pagefind 索引生成，最终结果保留在 `dist/`，不再回写 `public/pagefind`。开发与 CI 统一使用 Node.js 24、pnpm 9.15.9。
 
 ## 6. 当前状态
 
-截至 2026 年 9 月 14 日，Minecraft 结构演示已完成 AE2 首轮可用链路：文章 fenced block 引用 `src/data/mc/structures/` 下的 NBT；Astro 启动和构建时生成标准化场景 JSON 和纹理；页面通过 Three.js 显示可旋转、可缩放的方块结构，并保留文本降级。当前 `test.nbt` 中的 AE2 19.2.17 方块使用仓库内整理的固定纹理，因此本地和 CI 构建不依赖个人 Minecraft 目录。已定向适配控制器默认在线常亮、邻接材质，以及分子装配室的原版镂空模型与逐面 UV。通用 blockstate/模型继承、动态发光和 Create 资源适配属于后续阶段。新增功能应服务于文章阅读或内容表达，不应为了扩展而扩展。
+截至 2026 年 9 月 14 日，Minecraft 结构演示已完成 AE2 首轮可用链路：文章 fenced block 引用 `src/data/mc/structures/` 下的 NBT；Astro 启动和构建时生成标准化场景 JSON 和纹理；页面通过 Three.js 显示可旋转、可缩放的方块结构，并保留文本降级。Minecraft 1.21.1、AE2 19.2.17、Create 6.0.10 的渲染资源已批量入库并附哈希清单。构建从文章引用收集 NBT，去重解析并记录模型/纹理依赖；不再扫描所有 NBT 或读取个人 Minecraft 目录。Obsidian Actions 增量同步文章、图片与 NBT，博客仓库 CI 验证资源、代码、测试和构建，详见 [CI 与内容同步](ci.md)。已定向适配控制器默认在线常亮、邻接材质，以及分子装配室的原版镂空模型与逐面 UV。通用 blockstate/模型继承、动态发光和 Create 资源适配属于后续阶段。新增功能应服务于文章阅读或内容表达，不应为了扩展而扩展。

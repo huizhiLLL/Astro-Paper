@@ -22,7 +22,9 @@ html[data-theme="dark"] {
 }
 
 @theme inline {
-  --font-app: "TsangerJinKai02", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Serif CJK SC", serif;
+  --font-app:
+    "TsangerJinKai02", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Serif CJK SC", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);

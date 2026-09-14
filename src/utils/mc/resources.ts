@@ -1,98 +1,52 @@
-import {
-  copyFile,
-  mkdir,
-  mkdtemp,
-  readFile,
-  readdir,
-  rm,
-  writeFile,
-} from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { copyFile, mkdir, access } from "node:fs/promises";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
-import os from "node:os";
 
 export type MCResource = { textureUrl?: string; source: string };
-const minecraftRoots = () => {
-  const configured = process.env.MC_RESOURCE_ROOT || "D:\\31691\\.minecraft";
-  const version = process.env.MC_VERSION || "huizhi's test";
-  return [path.join(configured, "versions", version, "mods")];
-};
-const namespaceOf = (id: string) => id.split(":")[0] || "minecraft";
-const nameOf = (id: string) => id.split(":")[1] || id;
-const textureCandidates = (namespace: string, name: string) => [
-  `assets/${namespace}/textures/block/${name}.png`,
-  `assets/${namespace}/textures/block/${name}/${name}_front.png`,
-  `assets/${namespace}/textures/block/${name}/${name}.png`,
-];
-
-export const prepareResource = async (
+export const resourceRootFor = (publicDir: string) =>
+  path.resolve(publicDir, "../src/data/mc/resources");
+export async function prepareResource(
   id: string,
-  publicDir: string
-): Promise<MCResource> => {
-  const namespace = namespaceOf(id);
-  const name = nameOf(id);
-  const outputDir = path.join(publicDir, "mc-generated", "textures");
-  await mkdir(outputDir, { recursive: true });
-  const target = path.join(outputDir, `${namespace}-${name}.png`);
-  const candidates = textureCandidates(namespace, name);
-  const repositoryResources = path.resolve(
-    publicDir,
-    "../src/data/mc/resources"
-  );
-
+  publicDir: string,
+  resourceRoot = resourceRootFor(publicDir)
+): Promise<MCResource> {
+  const [namespace, name] = id.split(":");
+  if (!/^[a-z0-9_.-]+:[a-z0-9_./-]+$/.test(id) || id.includes(".."))
+    throw new Error(`Invalid block ID: ${id}`);
+  const candidates = [
+    `assets/${namespace}/textures/block/${name}.png`,
+    `assets/${namespace}/textures/block/${name}/${name.split("/").at(-1)}_front.png`,
+    `assets/${namespace}/textures/block/${name}/${name.split("/").at(-1)}.png`,
+  ];
   for (const candidate of candidates) {
-    const source = path.join(repositoryResources, candidate);
-    if (!existsSync(source)) continue;
+    const source = path.join(resourceRoot, candidate);
+    try {
+      await access(source);
+    } catch {
+      continue;
+    }
+    const filename = `${namespace}-${name.replaceAll("/", "-")}.png`;
+    const target = path.join(publicDir, "mc-generated/textures", filename);
+    await mkdir(path.dirname(target), { recursive: true });
     await copyFile(source, target);
-    const result = {
-      textureUrl: `/mc-generated/textures/${namespace}-${name}.png`,
+    return {
+      textureUrl: `/mc-generated/textures/${filename}`,
       source: `repository:${candidate}`,
     };
-    return result;
   }
-
-  for (const root of minecraftRoots()) {
-    if (!existsSync(root)) continue;
-    for (const jar of await readdir(root)) {
-      if (!jar.endsWith(".jar")) continue;
-      const temp = await mkdtemp(path.join(os.tmpdir(), "mc-resource-"));
-      const archive = path.join(temp, "mod.jar");
-      try {
-        // Java jar may misread non-ASCII Windows paths under the current locale.
-        await copyFile(path.join(root, jar), archive);
-        const entries = execFileSync("jar", ["tf", archive], {
-          encoding: "utf8",
-        })
-          .split(/\r?\n/)
-          .map(entry => entry.trim())
-          .filter(Boolean);
-        const texturePath = candidates.find(candidate =>
-          entries.includes(candidate)
-        );
-        if (!texturePath) continue;
-        execFileSync("jar", ["xf", archive, texturePath], {
-          cwd: temp,
-          stdio: "ignore",
-        });
-        const source = path.join(temp, texturePath);
-        if (existsSync(source)) {
-          await writeFile(target, new Uint8Array(await readFile(source)));
-          const result = {
-            textureUrl: `/mc-generated/textures/${namespace}-${name}.png`,
-            source: jar,
-          };
-          return result;
-        }
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        throw new Error(`Failed to extract ${id} from ${jar}: ${message}`);
-      } finally {
-        await rm(temp, { recursive: true, force: true });
-      }
-    }
-  }
-
-  const result = { source: "unresolved" };
-  return result;
-};
+  const supported = [
+    "ae2:controller",
+    "ae2:molecular_assembler",
+    "ae2:drive",
+    "ae2:pattern_provider",
+    "ae2:creative_energy_cell",
+  ];
+  if (supported.includes(id))
+    throw new Error(
+      `Missing repository texture for ${id}: ${candidates.join(", ")}`
+    );
+  process.stderr.write(
+    `[mc] No base texture for ${id}; using a placeholder (no local resource fallback).` +
+      "\n"
+  );
+  return { source: "unsupported" };
+}

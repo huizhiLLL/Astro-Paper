@@ -26,7 +26,7 @@ ExtendedAE: 2.2.36
 ExtendedAE Plus: 1.6.2
 ```
 
-当前本地版本包根目录为 `D:\31691\.minecraft\versions\huizhi's test`。本地开发可以从该版本目录中的 mod jar 提取缺失资源；CI 使用 `src/data/mc/resources/` 中整理并提交的固定版本资源。完整版本包、mod jar 和未使用的原始资源不提交到博客仓库。
+当前本地版本包根目录为 `D:\31691\.minecraft\versions\huizhi's test`。该目录仅供显式批量导入脚本使用，开发构建和 CI 均使用 `src/data/mc/resources/` 中整理并提交的固定版本资源。完整版本包、mod jar 和未使用的原始资源不提交到博客仓库。
 
 第一阶段不做：
 
@@ -141,7 +141,7 @@ Structure NBT → 标准化场景 JSON → Web 渲染
 - 方块朝向和基础旋转。
 - 结构中的方块位置、尺寸和 palette。
 
-构建工具先读取 `src/data/mc/resources/` 中按原资源路径整理的固定资源，使本地和 CI 得到相同结果；缺失时再从 `MC_RESOURCE_ROOT`/`MC_VERSION` 指向的本地 mod jar 提取。当前仅整理 `test.nbt` 使用的 AE2 19.2.17 纹理，原始 jar 不作为浏览器资源发布。
+构建只读取 `src/data/mc/resources/` 的固定资源，没有本地回退。Minecraft 1.21.1、AE2 19.2.17、Create 6.0.10 的渲染资产已批量入库，版本与逐文件哈希记录在 manifest 中。通过文章引用收集 NBT，再递归记录方块、模型和纹理依赖；浏览器只加载定向适配实际使用的输出。同步、校验和部署流程见 [CI 与内容同步](ci.md)。
 
 最脆弱的技术假设是：固定版本的 AE2/Create 资源可以被稳定转换为浏览器可用模型。如果通用模型解析暂时无法成立，第一阶段可以退化为构建期生成少量预处理 GLTF/JSON 模型，但不能退化为让文章作者手写完整空间结构。
 

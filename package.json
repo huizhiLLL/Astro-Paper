@@ -5,13 +5,16 @@
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && node -e \"require('fs').cpSync('dist/pagefind', 'public/pagefind', { recursive: true, force: true })\"",
+    "build": "astro check && astro build && pagefind --site dist",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test tests/minecraft-appearance.test.mjs tests/minecraft-drive.test.mjs tests/minecraft-hover.test.mjs tests/minecraft-build.test.mjs",
+    "test:preview": "node scripts/test-mc-preview.mjs",
+    "resources:check": "node scripts/check-mc-resources.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.14",
@@ -22,12 +25,15 @@
     "dayjs": "^1.11.19",
     "lodash.kebabcase": "^4.1.1",
     "remark-collapse": "^0.1.2",
+    "remark-frontmatter": "5.0.0",
+    "remark-parse": "11.0.0",
     "remark-toc": "^9.0.0",
     "satori": "^0.18.3",
     "sharp": "^0.34.5",
     "slugify": "^1.6.6",
     "tailwindcss": "^4.1.18",
-    "three": "^0.186.0"
+    "three": "^0.186.0",
+    "unified": "11.0.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
@@ -46,5 +52,8 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
   }
 }

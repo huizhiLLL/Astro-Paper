@@ -12,3 +12,13 @@
 !.prettierrc
 !eslint.config.js
 !README.md
+# Fixed upstream resources retain their original bytes (verified by manifest).
+src/data/mc/resources/assets/
+src/data/mc/resources/manifest.json
+
+# Author-owned synced content is validated by the content schema, not reformatted.
+src/data/blog/
+public/blog-assets/
+
+# Generated font subset declarations.
+public/fonts/

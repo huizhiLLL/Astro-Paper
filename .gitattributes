@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Upstream assets are checked against their exact imported bytes.
+src/data/mc/resources/assets/** -text

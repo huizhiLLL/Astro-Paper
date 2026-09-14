@@ -19,8 +19,26 @@ test("Minecraft preview serves its renderer dependency graph", async () => {
       await checkModule(new URL(match[1], url).href);
     }
   }
-  await checkModule(new URL("/src/scripts/minecraft-scene.ts", origin).href);
-  assert(visited.size >= 3, "Must check Three.js and OrbitControls imports");
+  if (process.env.MC_PREVIEW_PRODUCTION) {
+    const response = await fetch(
+      new URL("/posts/mc-structure-preview", origin)
+    );
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    for (const match of html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*>/g)) {
+      await checkModule(new URL(match[1], origin).href);
+    }
+  } else {
+    await checkModule(new URL("/src/scripts/minecraft-scene.ts", origin).href);
+  }
+  if (process.env.MC_PREVIEW_PRODUCTION) {
+    assert(
+      [...visited].some(url => url.includes("/_astro/PostDetails.")),
+      "Must check the bundled renderer entry"
+    );
+  } else {
+    assert(visited.size >= 3, "Must check Three.js and OrbitControls imports");
+  }
 });
 
 test("Minecraft preview has visible fallback content before scripts load", async () => {

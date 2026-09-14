@@ -1,30 +1,37 @@
 # Minecraft 固定资源
 
-此目录保存构建和 CI 所需的最小固定资源集，不包含完整 Minecraft 版本包或 mod jar。文件保持原资源包中的相对路径，`src/utils/mc/resources.ts` 与 `src/utils/mc/appearance.ts` 会优先从这里复制实际被结构引用的纹理。
+此目录是构建输入，运行时仅输出文章实际使用的 Web 资源。日常构建只读本目录，没有本机资源回退。
 
-当前资源来源：
+## 固定版本
 
-- Minecraft：1.21.1
-- Mod：Applied Energistics 2 19.2.17
-- 本地来源文件：`[应用能源2] appliedenergistics2-19.2.17.jar`
-- 原始路径：`assets/ae2/textures/block/` 与 `assets/ae2/models/block/`
+- Minecraft 1.21.1（包含资产索引 17 的中文语言文件）。
+- Applied Energistics 2 19.2.17。
+- Create 6.0.10（Minecraft 1.21.1）。
 
-当前整理的纹理：
+`manifest.json` 记录源包 SHA-256、版本、逐文件来源和 SHA-256，共 14,202 个文件。`assets/<namespace>/` 保存 blockstates、models、textures（PNG 与动画元数据）、中文和英文语言文件；不包含 Java 代码、声音和整个 mod jar。原始文件保持字节内容，`.gitattributes` 禁止换行转换，Prettier 排除原始资源。
 
-- `controller.png`
-- `controller_powered.png`、`controller_lights.png` 及其 `.mcmeta`
-- `controller_column_powered.png`、`controller_column_lights.png` 及其 `.mcmeta`
-- `controller_inside_a.png`、`controller_inside_b.png`
-- `creative_energy_cell.png`
-- `molecular_assembler.png`
-- `pattern_provider.png`
-- `drive/drive_front.png`、`drive/drive_inside.png`、`drive/drive_inside_top.png`、`drive/drive_inside_bottom.png`
-- `generics/back.png`、`generics/front.png`、`generics/side.png`、`generics/top.png`、`generics/bottom.png`
+资源版权与许可沿用 [Minecraft](https://www.minecraft.net/usage-guidelines)、[AE2](https://github.com/AppliedEnergistics/Applied-Energistics-2) 和 [Create](https://github.com/Creators-of-Create/Create) 的上游声明。此清单用于记录固定资源来源，不改变上游许可。
 
-模型文件：`assets/ae2/models/block/molecular_assembler.json`，保留原版 13 个元素和逐面 UV。驱动器使用 `assets/ae2/models/block/drive/drive_base.json`，保留原版外壳、逐面贴图与空槽结构；不添加已插入存储元件的模型。
+## 导入与验证
 
-控制器邻接规则参考 [AE2 19.2.17 ControllerBlock](https://github.com/AppliedEnergistics/Applied-Energistics-2/blob/neoforge/v19.2.17/src/main/java/appeng/block/networking/ControllerBlock.java)。仅一条轴的正负两侧都相连时使用柱体，两条以上轴贯通时根据局部坐标奇偶性选择内部 A/B。在线灯光取动画第一帧；构建产物包含底色合成图和黑底自发光遮罩，原始资源不作修改。
+在 PowerShell 7 中执行，路径显式传入，不保存在构建配置中：
 
-纹理图像和模型内容保持原版，动画元数据仅做格式整理；这些资源用于 `test.nbt` 的博客结构预览。增加或升级资源时，需要同步更新本文件、对应版本文档和页面验收样本。上游许可信息以 Applied Energistics 2 项目及所用版本包内的声明为准。
+```powershell
+./scripts/import-mc-resources.ps1 `
+  -MinecraftJar '<Minecraft 1.21.1 客户端 jar>' `
+  -Ae2Jar '<AE2 19.2.17 jar>' `
+  -CreateJar '<Create 6.0.10 jar>' `
+  -MinecraftAssetsRoot '<包含 indexes/17.json 和 objects 的 assets 目录>'
+pnpm resources:check
+```
 
-中文名称：`assets/ae2/lang/zh_cn.json` 从同版本语言文件中摘录当前五种方块的原始译名，供悬停提示使用；新增方块时同步补充。
+导入顺序为原版、Create、AE2；重复执行时跳过字节一致的资产。更新版本需同时更新脚本版本声明和依赖适配。CI 只验证清单，不执行本机导入。
+
+## 定向适配
+
+- 控制器：按 AE2 `ControllerBlock#getControllerType` 的双侧邻接规则切换普通/柱体/内部纹理；在线灯光固定第一帧。
+- 分子装配室：原版 13 元素镂空模型、逐面 UV 和透明像素裁剪。
+- 驱动器：原版逐面外壳与十个空槽，暂不展示已插入存储元件。
+- 中文提示：优先命名空间 `zh_cn.json`，再尝试英文名称或方块 ID。
+
+更多资源入库不等于自动支持全部模型行为，详见 [CI 与内容同步](../../../../docs/ci.md)。

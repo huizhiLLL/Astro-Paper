@@ -8,7 +8,10 @@ type NbtValue =
   | { [key: string]: NbtValue };
 class Cursor {
   private offset = 0;
-  constructor(private readonly bytes: Uint8Array) {}
+  private readonly bytes: Uint8Array;
+  constructor(bytes: Uint8Array) {
+    this.bytes = bytes;
+  }
   private read(length: number) {
     const end = this.offset + length;
     if (end > this.bytes.length) throw new Error("Unexpected end of NBT data");
