@@ -1,4 +1,6 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig, envField } from "astro/config";
+import type { AstroIntegration } from "astro";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
@@ -10,12 +12,27 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { remarkObsidianImagePaths } from "./src/utils/remarkObsidianImagePaths";
+import { remarkMinecraftScenes } from "./src/utils/remarkMinecraftScenes";
 import { SITE } from "./src/config";
+import { buildMinecraftScenes } from "./src/utils/mc/build";
+
+const minecraftScenes = (): AstroIntegration => ({
+  name: "minecraft-scenes",
+  hooks: {
+    "astro:config:setup": async ({ config }) => {
+      await buildMinecraftScenes(
+        fileURLToPath(config.root),
+        fileURLToPath(config.publicDir)
+      );
+    },
+  },
+});
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
   integrations: [
+    minecraftScenes(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
@@ -23,6 +40,7 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       remarkObsidianImagePaths,
+      remarkMinecraftScenes,
       remarkToc,
       [remarkCollapse, { test: "Table of contents" }],
     ],

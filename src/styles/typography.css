@@ -91,6 +91,23 @@
     }
   }
 
+  .mc-scene-viewer {
+    @apply my-8 overflow-hidden border border-border bg-muted/30;
+  }
+  .mc-scene-toolbar {
+    @apply flex flex-wrap items-baseline justify-between gap-2 border-b border-border px-4 py-3 text-sm;
+  }
+  .mc-scene-canvas {
+    @apply relative min-h-80 touch-none overflow-hidden bg-background;
+    height: min(32rem, 70vw);
+  }
+  .mc-scene-three {
+    @apply block size-full;
+  }
+  .mc-scene-fallback {
+    @apply m-0 border-t border-border px-4 py-3 text-sm opacity-75;
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);

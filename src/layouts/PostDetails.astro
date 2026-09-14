@@ -163,7 +163,8 @@ const nextPost =
   <Footer />
 </Layout>
 
-<script is:inline data-astro-rerun>
+<script>
+  import { mountMinecraftScene } from "../scripts/minecraft-scene";
   /** Create a progress indicator
    *  at the top */
   function createProgressBar() {
@@ -262,7 +263,7 @@ const nextPost =
       });
     }
 
-    async function copyCode(block, button) {
+    async function copyCode(block: HTMLElement, button: HTMLButtonElement) {
       const code = block.querySelector("code");
       const text = code?.innerText;
 
@@ -277,6 +278,50 @@ const nextPost =
     }
   }
   attachCopyButtons();
+
+  /** Render build-time Minecraft scenes without making the article parse NBT at runtime. */
+  async function attachMinecraftScenes() {
+    const scenes = document.querySelectorAll<HTMLElement>("[data-mc-scene]");
+    for (const scene of scenes) {
+      if (scene.dataset.mcMounted === "true") continue;
+      const sceneUrl = scene.dataset.mcScene;
+      if (!sceneUrl) continue;
+      scene.dataset.mcMounted = "true";
+
+      try {
+        const response = await fetch(sceneUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const caption = scene.dataset.mcCaption ?? "Minecraft structure";
+        const size = data.size.join(" x ");
+        const toolbar = document.createElement("div");
+        toolbar.className = "mc-scene-toolbar";
+        const title = document.createElement("strong");
+        title.textContent = caption;
+        const hint = document.createElement("span");
+        hint.textContent = `${size} blocks · drag to rotate · wheel to zoom`;
+        toolbar.append(title, hint);
+        const canvas = document.createElement("div");
+        canvas.className = "mc-scene-canvas";
+        canvas.setAttribute("aria-label", caption);
+        const fallback = document.createElement("p");
+        fallback.className = "mc-scene-fallback";
+        fallback.textContent = `${caption}: ${size} blocks`;
+        scene.className = "mc-scene-viewer";
+        scene.replaceChildren(toolbar, canvas, fallback);
+        mountMinecraftScene(canvas, data);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        const fallback = document.createElement("p");
+        fallback.className = "mc-scene-fallback";
+        fallback.textContent = `结构加载失败，仍可查看构建信息：${message}`;
+        scene.className = "mc-scene-fallback";
+        scene.replaceChildren(fallback);
+      }
+    }
+  }
+  document.addEventListener("astro:page-load", attachMinecraftScenes);
+  attachMinecraftScenes();
 
   /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>
