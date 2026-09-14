@@ -299,16 +299,13 @@ const nextPost =
         const title = document.createElement("strong");
         title.textContent = caption;
         const hint = document.createElement("span");
-        hint.textContent = `${size} blocks · drag to rotate · wheel to zoom`;
+        hint.textContent = `${size} blocks`;
         toolbar.append(title, hint);
         const canvas = document.createElement("div");
         canvas.className = "mc-scene-canvas";
         canvas.setAttribute("aria-label", caption);
-        const fallback = document.createElement("p");
-        fallback.className = "mc-scene-fallback";
-        fallback.textContent = `${caption}: ${size} blocks`;
         scene.className = "mc-scene-viewer";
-        scene.replaceChildren(toolbar, canvas, fallback);
+        scene.replaceChildren(toolbar, canvas);
         mountMinecraftScene(canvas, data);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
