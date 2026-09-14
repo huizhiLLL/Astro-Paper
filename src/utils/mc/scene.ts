@@ -3,11 +3,13 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { prepareResource } from "./resources.ts";
 import { parseNbt, type NbtValue } from "./nbt.ts";
+import { prepareAppearances, type BlockModel } from "./appearance.ts";
 export type SceneBlock = {
   id: string;
   state: Record<string, string>;
   pos: [number, number, number];
   nbt?: Record<string, NbtValue>;
+  model?: string;
 };
 export type MCScene = {
   schema: 1;
@@ -16,6 +18,8 @@ export type MCScene = {
   size: [number, number, number];
   palette: string[];
   resources?: Record<string, { textureUrl?: string; source: string }>;
+  models?: Record<string, BlockModel>;
+  names?: Record<string, string>;
   blocks: SceneBlock[];
 };
 const asCompound = (value: NbtValue | undefined) =>
@@ -96,6 +100,30 @@ export const buildScene = async (
   for (const block of scene.blocks)
     resources[block.id] ??= await prepareResource(block.id, publicDir);
   scene.resources = resources;
+  const translations: Record<string, string> = JSON.parse(
+    await readFile(
+      path.resolve(
+        publicDir,
+        "../src/data/mc/resources/assets/ae2/lang/zh_cn.json"
+      ),
+      "utf8"
+    )
+  );
+  scene.names = Object.fromEntries(
+    scene.palette.map(id => [
+      id,
+      translations[`block.${id.replace(":", ".")}`] ?? id,
+    ])
+  );
+  const { models, modelKeys } = await prepareAppearances(
+    scene.blocks,
+    path.resolve(publicDir, "../src/data/mc/resources"),
+    publicDir
+  );
+  scene.models = models;
+  scene.blocks.forEach((block, index) => {
+    if (modelKeys[index]) block.model = modelKeys[index];
+  });
   const outputDir = path.join(publicDir, "mc-generated", id);
   await mkdir(outputDir, { recursive: true });
   await writeFile(path.join(outputDir, "scene.json"), JSON.stringify(scene));

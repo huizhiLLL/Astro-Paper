@@ -32,6 +32,21 @@ const minecraftScenes = (): AstroIntegration => ({
 export default defineConfig({
   site: SITE.website,
   integrations: [
+    {
+      name: "isolated-vite-cache",
+      hooks: {
+        "astro:config:setup": ({ command, config, updateConfig }) => {
+          // Checks/builds must not invalidate a running dev server's dependencies.
+          updateConfig({
+            vite: {
+              cacheDir: fileURLToPath(
+                new URL(`./node_modules/.vite/${command}/`, config.root)
+              ),
+            },
+          });
+        },
+      },
+    },
     minecraftScenes(),
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),

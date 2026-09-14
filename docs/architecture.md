@@ -104,7 +104,13 @@ Markdown
 
 浏览器不直接读取 NBT、mod jar 或原始资源包。自定义 Astro integration 在开发启动和生产构建阶段遍历 `src/data/mc/structures/`，将 NBT 转换为 `public/mc-generated/` 下的标准化场景数据和纹理。资源解析优先读取 `src/data/mc/resources/` 中整理并提交的固定资源，保证 CI 可复现；仓库资源缺失时，本地构建才使用 `MC_RESOURCE_ROOT` 与 `MC_VERSION` 指向的 Minecraft 版本目录，从 mod jar 提取纹理。
 
-浏览器端使用 Three.js 的方块几何体和最近邻纹理过滤渲染场景，OrbitControls 提供旋转和缩放。当前实现为每个方块复用一张基础纹理，尚未解析 blockstate、模型继承、逐面纹理、发光层和方向状态。当前样本来自 Create 蓝图与笔，内容包含 AE2 19.2.17 方块；导出 NBT 采用小写 `size`/`blocks` 字段，`blocks` 可能是数字键 Compound，方块 ID 从 block NBT 的 `id` 读取。
+Vite 依赖缓存按 Astro 命令隔离在 `node_modules/.vite/<command>/`，避免运行检查或构建时覆盖开发服务仍在使用的预打包依赖。结构占位标记始终包含可见的标题与尺寸说明，脚本成功后才替换成交互视图；模块加载失败时仍保留文本。启动 `pnpm dev` 后可运行 `node --test tests/minecraft-preview.test.mjs` 检查模块依赖、静态降级和场景资源；在开发服务保持运行的情况下执行构建，再重跑此测试，可验证缓存隔离。该测试不覆盖 WebGL 画面。`node --test tests/minecraft-appearance.test.mjs` 验证控制器连接分类、模型旋转、自发光遮罩、装配室透明视线与框架遮挡，以及重复资源生成；`node --test tests/minecraft-drive.test.mjs` 验证驱动器顶部、侧面、背面、底部贴图及十个空槽的深度。测试直接加载 TypeScript，使用 Node.js 24 运行。
+
+修改 remark 插件后，若文章内容未变化，Astro 可能复用旧的渲染 HTML；构建前运行 `pnpm exec astro sync --force` 刷新内容缓存。
+
+浏览器端使用 Three.js 方块几何体，保持 Minecraft 的 +Y 向上，并按实际结构包围盒居中。默认从 -Z 侧斜上方观察，按视口宽高自动取景；OrbitControls 提供旋转和缩放，限制相机进入地平线以下。颜色纹理使用 sRGB；不超过 64×64 的像素纹理先在客户端按最近邻放大 8 倍，再使用线性放大过滤、三线性 mipmap 缩小过滤和最高 8 倍各向异性过滤，使近景平滑过渡限制在原始像素边界的 1/8 范围内，配合抗锯齿、半球光与方向光改善斜面采样和空间层次；画布像素比上限为 2。画布透明，背景由容器的主题背景色提供；工具栏与底部说明使用主题前景色，随站点亮暗主题即时切换。场景 JSON 保持 schema 1，增加可选 `models` 表、方块 `model` 引用和 `names` 中文名称表。`src/utils/mc/appearance.ts` 在构建期定向生成 AE2 控制器、分子装配室与驱动器的模型描述，`src/scripts/minecraft-model.ts` 按元素、面、UV 和旋转生成几何体，并按材质合批；同型号共享几何体与纹理。控制器按 AE2 19.2.17 的双侧邻接规则选择普通块、X/Y/Z 柱体、内部 A/B 纹理；坐标奇偶性使用结构局部坐标。普通块和柱体固定使用在线贴图第一帧，底色与灯层在构建期合成，另生成黑底自发光遮罩；内部 A/B 按原版保持非发光。分子装配室读取固定的 13 元素原模型，保留逐面 UV/90° UV 旋转，使用双面 alphaTest 裁剪与 alpha-to-coverage，保持深度写入。驱动器读取原版 `drive_base.json`，按原模型使用外壳各面与内部贴图，并保留十个槽位的凹陷结构；当前默认朝北、空槽，不模拟已插入存储元件或状态灯。其他方块仍使用基础立方体纹理；通用 blockstate、模型继承、任意元素旋转及网络状态模拟尚未实现。当前样本来自 Create 蓝图与笔，内容包含 AE2 19.2.17 方块；导出 NBT 采用小写 `size`/`blocks` 字段，`blocks` 可能是数字键 Compound，方块 ID 从 block NBT 的 `id` 读取。
+
+悬停交互由 `src/scripts/minecraft-hover.ts` 管理：按最近的方块包围盒选中整个方块（包括镂空模型），绘制随主题变化的外轮廓，并在鼠标旁显示中文名称。中文名称来自仓库内 AE2 19.2.17 的精简 `zh_cn.json`，缺少翻译时回退方块 ID。提示框限制在画布内，不拦截指针；拖动、移出、取消或窗口失焦时清除，触摸操作不触发悬停。卸载时清理监听、主题观察器与轮廓资源。`node --test tests/minecraft-hover.test.mjs` 验证最近方块拾取、中文提示、拖动与移出状态、主题更新和清理；该测试使用 DOM 替身，不覆盖浏览器画面。
 
 当前扩展的完整决策、错误处理、目录约定和第一阶段任务见 [Minecraft 结构演示扩展](mc-structure-extension.md)。
 

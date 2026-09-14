@@ -13,7 +13,6 @@ import { execFileSync } from "node:child_process";
 import os from "node:os";
 
 export type MCResource = { textureUrl?: string; source: string };
-const cache = new Map<string, MCResource>();
 const minecraftRoots = () => {
   const configured = process.env.MC_RESOURCE_ROOT || "D:\\31691\\.minecraft";
   const version = process.env.MC_VERSION || "huizhi's test";
@@ -31,7 +30,6 @@ export const prepareResource = async (
   id: string,
   publicDir: string
 ): Promise<MCResource> => {
-  if (cache.has(id)) return cache.get(id)!;
   const namespace = namespaceOf(id);
   const name = nameOf(id);
   const outputDir = path.join(publicDir, "mc-generated", "textures");
@@ -51,7 +49,6 @@ export const prepareResource = async (
       textureUrl: `/mc-generated/textures/${namespace}-${name}.png`,
       source: `repository:${candidate}`,
     };
-    cache.set(id, result);
     return result;
   }
 
@@ -85,7 +82,6 @@ export const prepareResource = async (
             textureUrl: `/mc-generated/textures/${namespace}-${name}.png`,
             source: jar,
           };
-          cache.set(id, result);
           return result;
         }
       } catch (error) {
@@ -98,6 +94,5 @@ export const prepareResource = async (
   }
 
   const result = { source: "unresolved" };
-  cache.set(id, result);
   return result;
 };

@@ -92,10 +92,10 @@
   }
 
   .mc-scene-viewer {
-    @apply my-8 overflow-hidden border border-border bg-muted/30;
+    @apply my-8 overflow-hidden border border-border bg-muted/30 text-foreground;
   }
   .mc-scene-toolbar {
-    @apply flex flex-wrap items-baseline justify-between gap-2 border-b border-border px-4 py-3 text-sm;
+    @apply flex flex-wrap items-baseline justify-between gap-2 border-b border-border px-4 py-3 text-sm text-foreground;
   }
   .mc-scene-canvas {
     @apply relative min-h-80 touch-none overflow-hidden bg-background;
@@ -105,7 +105,12 @@
     @apply block size-full;
   }
   .mc-scene-fallback {
-    @apply m-0 border-t border-border px-4 py-3 text-sm opacity-75;
+    @apply m-0 border-t border-border px-4 py-3 text-sm text-foreground opacity-75;
+  }
+  .mc-scene-tooltip {
+    @apply pointer-events-none absolute z-10 border border-border bg-background px-2 py-1 text-sm text-foreground shadow-sm;
+    max-width: calc(100% - 1rem);
+    overflow-wrap: anywhere;
   }
 
   /* ===== Code Blocks & Syntax Highlighting ===== */

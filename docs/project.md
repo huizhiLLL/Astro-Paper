@@ -83,4 +83,4 @@ pnpm run build
 
 ## 6. 当前状态
 
-截至 2026 年 9 月 14 日，Minecraft 结构演示已完成 AE2 首轮可用链路：文章 fenced block 引用 `src/data/mc/structures/` 下的 NBT；Astro 启动和构建时生成标准化场景 JSON 和纹理；页面通过 Three.js 显示可旋转、可缩放的方块结构，并保留文本降级。当前 `test.nbt` 中的 AE2 19.2.17 方块使用仓库内整理的固定纹理，因此本地和 CI 构建不依赖个人 Minecraft 目录。完整 blockstate、逐面模型、发光层，以及 Create 资源适配属于下一阶段。新增功能应服务于文章阅读或内容表达，不应为了扩展而扩展。
+截至 2026 年 9 月 14 日，Minecraft 结构演示已完成 AE2 首轮可用链路：文章 fenced block 引用 `src/data/mc/structures/` 下的 NBT；Astro 启动和构建时生成标准化场景 JSON 和纹理；页面通过 Three.js 显示可旋转、可缩放的方块结构，并保留文本降级。当前 `test.nbt` 中的 AE2 19.2.17 方块使用仓库内整理的固定纹理，因此本地和 CI 构建不依赖个人 Minecraft 目录。已定向适配控制器默认在线常亮、邻接材质，以及分子装配室的原版镂空模型与逐面 UV。通用 blockstate/模型继承、动态发光和 Create 资源适配属于后续阶段。新增功能应服务于文章阅读或内容表达，不应为了扩展而扩展。

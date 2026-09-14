@@ -41,21 +41,25 @@ export function remarkMinecraftScenes() {
         );
       }
       const caption = options.caption ?? options.src;
-      const safeCaption = caption.replaceAll('"', "&quot;");
+      const safeCaption = caption
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
       children[index] = {
         type: "html",
         value:
-          '<div class="mc-scene" data-mc-scene="' +
+          '<div class="mc-scene-viewer" data-mc-scene="' +
           result.sceneUrl +
           '" data-mc-caption="' +
           safeCaption +
           '" data-mc-size="' +
           result.scene.size.join("x") +
-          '"><noscript><p>' +
-          caption +
+          '"><p class="mc-scene-fallback">' +
+          safeCaption +
           ": " +
           result.scene.size.join(" x ") +
-          " blocks</p></noscript></div>",
+          " blocks</p></div>",
       };
     }
   };
