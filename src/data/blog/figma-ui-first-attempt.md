@@ -17,7 +17,7 @@ description: 第一次接触 Figma 做 UI 设计的过程，包含配色思考�
 ### 成果
 我个人还是挺满意的，除了配色之外基本都和教程差不多，我做了一些微调。
 
-![huizhi-figma.png](/blog-assets/figma/huizhi-figma.png)
+![huizhi-figma.png](blog-assets/figma/huizhi-figma.png)
 
 ### 配色方案思考
 

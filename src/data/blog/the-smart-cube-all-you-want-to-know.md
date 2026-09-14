@@ -34,7 +34,7 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 ### 基础概念
 
-![BLE 与 GATT 数据模型](/blog-assets/BLE/smartcube-gatt-model.png)
+![BLE 与 GATT 数据模型](blog-assets/BLE/smartcube-gatt-model.png)
 
 - BLE（**B**luetooth **L**ow **E**nergy），即低功耗蓝牙，在 Bluetooth 4.0 引入，能够在维持相对低的功耗的同时实现通信，也就是智能魔方普遍采用的通信方式
 - MAC 地址（**M**edia **A**ccess **C**ontrol Address）：BLE 通信中用于标识和寻址设备的 48 位地址，格式例如：`D0:AB:12:34:56:78`；智能魔方的 MAC 地址通常随出厂固定，部分协议会使用 MAC 地址参与加密参数的生成
@@ -45,7 +45,7 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 ### 连接过程
 
-![智能魔方连接流程](/blog-assets/BLE/smartcube-connection-flow.png)
+![智能魔方连接流程](blog-assets/BLE/smartcube-connection-flow.png)
 
 1. **扫描和识别**：
    客户端扫描附近的 BLE 广播设备，根据设备名称、Service UUID、Manufacturer Data 等信息，初步判断魔方品牌和协议类型，例如 Moyu32、GAN、QiYi
@@ -107,7 +107,7 @@ description: 关于智能魔方的开发接入，你想知道的所有
 
 这里主要讨论 Web，Android 和 Windows，以及简单补充 iOS（暂无 mac OS/Linux 开发经验，不作讨论）
 
-![开发平台取舍对比](/blog-assets/BLE/smartcube-platform-tradeoffs.png)
+![开发平台取舍对比](blog-assets/BLE/smartcube-platform-tradeoffs.png)
 
 ### Web
 
@@ -154,7 +154,7 @@ iOS 作为移动端，也有不少用户；
 
 ## 难点 —— 多品牌兼容过程的真正麻烦
 
-![多品牌兼容性测试覆盖](/blog-assets/BLE/smartcube-compatibility-testing.png)
+![多品牌兼容性测试覆盖](blog-assets/BLE/smartcube-compatibility-testing.png)
 
 这里也只讨论三大品牌的兼容，其他品牌（Go，Giiker 等）在国内很少使用：
 
@@ -198,7 +198,7 @@ iOS 作为移动端，也有不少用户；
 
 它们的本质/核心都很简单，即前面介绍过的连接过程的应用层处理部分，由一般的计时训练改为外部映射，例如安卓的无障碍服务，Nodejs 的 nut-js，也可以再单独封装 API 来控制智能家具类的硬件 —— 映射层足够自由
 
-![智能魔方映射层架构](/blog-assets/BLE/smartcube-mapping-stack.png)
+![智能魔方映射层架构](blog-assets/BLE/smartcube-mapping-stack.png)
 
 ## 实践 —— 个人项目介绍与展望
 

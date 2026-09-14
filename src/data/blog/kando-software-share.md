@@ -23,10 +23,10 @@ description: '分享 Kando 这类导航式启动工具，以及它在日常电�
 
 其实这里本来想放点 GIF 的,稍微录了点体积好大,也有点麻烦,干脆直接放点图吧()
 
-![kando1.png](/blog-assets/kando/kando1.png)
-![kando2.png](/blog-assets/kando/kando2.png)
-![kando3.png](/blog-assets/kando/kando3.png)
-![kando4.png](/blog-assets/kando/kando4.png)
+![kando1.png](blog-assets/kando/kando1.png)
+![kando2.png](blog-assets/kando/kando2.png)
+![kando3.png](blog-assets/kando/kando3.png)
+![kando4.png](blog-assets/kando/kando4.png)
 
 ## 快速开始
 
@@ -36,7 +36,7 @@ Kando 对 Windows、Mac、Linux 平台均支持,安装可见[官方文档](https
 
 ### 配置和使用
 
-![Kando.png](/blog-assets/kando/Kando.png)
+![Kando.png](blog-assets/kando/Kando.png)
 
 对于 Kando 来说,几乎无需做什么初始化的配置,上手即用,只需要随着使用不断完善自己的导航库。
 

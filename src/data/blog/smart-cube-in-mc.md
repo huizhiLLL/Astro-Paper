@@ -46,7 +46,7 @@ description: '把智能魔方、键盘映射和 Minecraft 里的机械动力魔�
 
 参考了 cstimer 等项目后，我把这个映射层封装为了一个桌面工具「**RubiKey**」。
 
-![RubiKey_2.png](/blog-assets/rubikey/RubiKey_2.png)
+![RubiKey_2.png](blog-assets/rubikey/RubiKey_2.png)
 
 工具已开源，欢迎点个 Star 支持一下喵～
 
