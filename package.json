@@ -12,7 +12,7 @@
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "test": "node --test tests/minecraft-appearance.test.mjs tests/minecraft-drive.test.mjs tests/minecraft-hover.test.mjs tests/minecraft-build.test.mjs",
+    "test": "node --test tests/minecraft-appearance.test.mjs tests/minecraft-drive.test.mjs tests/minecraft-hover.test.mjs tests/minecraft-build.test.mjs tests/minecraft-preview-checks.test.mjs",
     "test:preview": "node scripts/test-mc-preview.mjs",
     "resources:check": "node scripts/check-mc-resources.mjs"
   },

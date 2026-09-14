@@ -34,7 +34,7 @@ caption: AE2 网络
 3. `pnpm lint`、`pnpm format:check`：验证工程代码；原始资产与同步文章不参与 Prettier 重排。
 4. `pnpm test`：模型、拾取、NBT/引用与资源构建测试。
 5. `pnpm build`：Astro 检查和静态构建、Pagefind 索引。
-6. `pnpm test:preview`：启动 `astro preview` 服务，以 HTTP 验证 `dist/` 的页面模块、场景、纹理与降级内容，随后关闭服务器；不使用浏览器自动化。
+6. `pnpm test:preview`：启动 `astro preview` 服务，以 HTTP 验证 `dist/` 的页面模块、场景、纹理与降级内容，随后关闭服务器；不使用浏览器自动化。自动扫描实际构建 HTML 中的结构文章，检查每篇文章的所有场景和纹理，不绑定临时文章路径或特定方块；没有已发布的结构文章时明确跳过该项，缺失构建产物或真实资源损坏仍会失败。
 7. 上传 `dist/` 为保留 7 天的 Actions artifact。
 
 Cloudflare Pages 继续通过仓库 Git 集成部署，输出目录为 `dist`，构建命令应为 `pnpm build`。GitHub CI 与 Cloudflare 是独立触发；本 workflow 不保证 Cloudflare 等待 CI，通过分支保护/部署策略才可建立发布门禁。后台构建设置不由仓库 workflow 自动修改。
