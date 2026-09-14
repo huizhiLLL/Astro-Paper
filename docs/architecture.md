@@ -140,6 +140,7 @@ Vite 依赖缓存按 Astro 命令隔离在 `node_modules/.vite/<command>/`，避
 外部服务与运行要求：
 
 - Giscus 需要 `SITE.comments` 中的仓库、仓库 ID、分类和分类 ID 正确匹配。
+- 评论组件读取站点 `html[data-theme]` 设置 Giscus 亮暗主题，并通过 `postMessage` 同步主题切换；iframe 加载完成和 Astro 页面导航后会再次同步。
 - Google 站点验证通过可选的 `PUBLIC_GOOGLE_SITE_VERIFICATION` 环境变量提供。
 - Pagefind 搜索结果需要至少成功执行一次生产构建后才完整可用。
 - `SITE.website` 应与实际部署域名一致，否则 canonical、RSS 和 sitemap 地址会不准确。
