@@ -1,0 +1,49 @@
+<div id="web-mascot-root" aria-hidden="true"></div>
+
+<script>
+  import { configure, createMascot, type Mascot } from "web-mascot";
+
+  const root = document.querySelector<HTMLElement>("#web-mascot-root");
+  let mascots: Mascot[] = [];
+  let mounting: Promise<void> | undefined;
+
+  configure({ assets: "/mascot_pack" });
+
+  async function mountMascot() {
+    if (!root || mascots.length > 0 || mounting) return;
+
+    mounting = (async () => {
+      try {
+        mascots = await Promise.all([
+          createMascot({ container: root, pack: "Neuron" }),
+          createMascot({ container: root, pack: "Eviling" }),
+        ]);
+      } catch (error) {
+        // eslint-disable-next-line no-console -- keep a visible diagnostic if assets fail to load.
+        console.error("[web-mascot] 宠物加载失败", error);
+      } finally {
+        mounting = undefined;
+      }
+    })();
+
+    await mounting;
+  }
+
+  function destroyMascot() {
+    for (const mascot of mascots) mascot.destroy();
+    mascots = [];
+  }
+
+  document.addEventListener("astro:page-load", mountMascot);
+  document.addEventListener("astro:before-swap", destroyMascot);
+  void mountMascot();
+</script>
+
+<style>
+  #web-mascot-root {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+  }
+</style>

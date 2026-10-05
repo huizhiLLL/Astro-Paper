@@ -19,6 +19,7 @@ src/data/mc/resources/manifest.json
 # Author-owned synced content is validated by the content schema, not reformatted.
 src/data/blog/
 public/blog-assets/
+public/mascot_pack/
 
 # Generated font subset declarations.
 public/fonts/

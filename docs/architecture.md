@@ -13,6 +13,7 @@
 - `@astrojs/sitemap`、`@astrojs/rss`：站点地图和 RSS。
 - Satori、Resvg、Sharp：动态 OG 图片生成与图像处理。
 - Giscus：基于 GitHub Discussions 的文章评论。
+- `web-mascot`：在页面中运行 Shimeji 格式的 Neuron 桌宠。
 
 ## 2. 目录职责
 

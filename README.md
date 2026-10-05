@@ -35,4 +35,8 @@ caption: AE2 测试网络
 
 构建只使用 `src/data/mc/resources/` 中已入库的固定版本资源，不读取本机 Minecraft 目录。文章引用 `mc/test.nbt` 对应 `src/data/mc/structures/test.nbt`，旧写法 `mc/structures/test.nbt` 仍兼容。详见 [Minecraft 结构演示扩展](docs/mc-structure-extension.md)。
 
+## 网页桌宠
+
+站点通过 `web-mascot` 挂载 Neuron 桌宠，资源位于 `public/mascot_pack/`，页面切换时会自动释放并重新挂载。内置宠物素材使用 CC-BY-NC-SA-4.0，商业使用前需替换为自有素材；引擎代码遵循 GPL-3.0-or-later。详见 [web-mascot](https://github.com/CommentOut64/web-mascot)。
+
 开发与 CI 使用 Node.js 24、pnpm 9.15.9。常用验证：`pnpm resources:check`、`pnpm lint`、`pnpm format:check`、`pnpm test`、`pnpm build`、`pnpm test:preview`。

@@ -59,6 +59,9 @@ importers:
       unified:
         specifier: 11.0.5
         version: 11.0.5
+      web-mascot:
+        specifier: 0.0.3
+        version: 0.0.3
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.6
@@ -2845,6 +2848,9 @@ packages:
 
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
+
+  web-mascot@0.0.3:
+    resolution: {integrity: sha512-0nvU68szXOmHxMCGpItmKMhnRrg2UbjQjm+NLm/ZYGopmjS5bW4gn0VDRVuvXn0Ll+pOWznuju3D4qora6R7xw==}
 
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
@@ -5874,6 +5880,8 @@ snapshots:
   vscode-nls@5.2.0: {}
 
   vscode-uri@3.1.0: {}
+
+  web-mascot@0.0.3: {}
 
   web-namespaces@2.0.1: {}
 
