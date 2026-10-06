@@ -1,15 +1,16 @@
-<div id="web-mascot-root" aria-hidden="true"></div>
+<div id="web-mascot-root" aria-hidden="true" transition:persist="web-mascot">
+</div>
 
 <script>
   import { configure, createMascot, type Mascot } from "web-mascot";
 
-  const root = document.querySelector<HTMLElement>("#web-mascot-root");
   let mascots: Mascot[] = [];
   let mounting: Promise<void> | undefined;
 
   configure({ assets: "/mascot_pack" });
 
   async function mountMascot() {
+    const root = document.querySelector<HTMLElement>("#web-mascot-root");
     if (!root || mascots.length > 0 || mounting) return;
 
     mounting = (async () => {
@@ -29,13 +30,7 @@
     await mounting;
   }
 
-  function destroyMascot() {
-    for (const mascot of mascots) mascot.destroy();
-    mascots = [];
-  }
-
   document.addEventListener("astro:page-load", mountMascot);
-  document.addEventListener("astro:before-swap", destroyMascot);
   void mountMascot();
 </script>
 
